@@ -3,22 +3,32 @@ using UnityEngine;
 public class GhostController : MonoBehaviour
 {
     public Transform player; 
-    public float riseSpeed = 2f; 
-    public float moveSpeed = 5f; 
+    public float maxRiseHeight = 0.5f; 
+    public float minRiseHeight = 0f; 
+    public float minRiseSpeed = 1f; 
+    public float maxRiseSpeed = 3f; 
+    public float minMoveSpeed = 3f; 
+    public float maxMoveSpeed = 100f; 
     public float detectionRange = 10f; 
-    public float maxRiseHeight = 1f; 
+    public float undergroundOffset = 5f; 
 
     private bool isRising = false; 
     private bool isChasing = false; 
 
     private Vector3 startPosition; 
     private Vector3 targetPosition; 
+    private float riseSpeed; 
+    private float moveSpeed; 
 
     void Start()
     {
+        float randomHeight = Random.Range(minRiseHeight, maxRiseHeight); 
+        riseSpeed = Random.Range(minRiseSpeed, maxRiseSpeed);
+        moveSpeed = Random.Range(minMoveSpeed, maxMoveSpeed);
+
         startPosition = transform.position;
-        targetPosition = new Vector3(startPosition.x, startPosition.y + maxRiseHeight, startPosition.z); 
-        transform.position = new Vector3(startPosition.x, startPosition.y - 2f, startPosition.z); 
+        targetPosition = new Vector3(startPosition.x, startPosition.y + randomHeight, startPosition.z);
+        transform.position = new Vector3(startPosition.x, startPosition.y - undergroundOffset, startPosition.z); 
     }
 
     void Update()

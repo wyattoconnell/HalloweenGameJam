@@ -1,4 +1,7 @@
 using UnityEngine;
+using UnityEngine.UI;
+using System.Collections;
+using TMPro;
 
 public class FPSController : MonoBehaviour
 {
@@ -8,6 +11,7 @@ public class FPSController : MonoBehaviour
     
     private Rigidbody rb;
     private Transform cameraPivot;
+    public TextMeshProUGUI gameOverText;
 
     private float xRotation = 0f;
 
@@ -46,14 +50,23 @@ public class FPSController : MonoBehaviour
         Vector3 velocity = move * moveSpeed;
         rb.linearVelocity = new Vector3(velocity.x, rb.linearVelocity.y, velocity.z);
 
-        if (Input.GetKeyDown(KeyCode.Space) && IsGrounded())
-        {
+        if (Input.GetKeyDown(KeyCode.Space) && IsGrounded()){
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        }
+
+        if (moveZ < -20) {
+            Debug.Log("Game Over");
+            endGame();
         }
     }
 
     bool IsGrounded()
     {
         return Physics.Raycast(transform.position, Vector3.down, 20.1f);
+    }
+
+    private void endGame() {
+    gameOverText.text = "Game Over"; 
+    gameOverText.gameObject.SetActive(true); 
     }
 }
